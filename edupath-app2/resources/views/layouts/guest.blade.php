@@ -28,20 +28,35 @@
             }
         @endphp
 
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 relative"
-             @if($bgLogo) style="background-image:url('{{ $bgLogo }}'); background-size:cover; background-position:center;" @endif>
-            <div class="absolute inset-0 bg-white/70 dark:bg-black/60"></div>
+        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 relative bg-gradient-to-br from-blue-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900"
+             @if(empty($noBgImage) && $bgLogo) style="background-image:url('{{ $bgLogo }}'); background-size:cover; background-position:center;" @endif>
+            @if(empty($noBgImage) && $bgLogo)
+                <div class="absolute inset-0 bg-white/80 dark:bg-black/70 backdrop-blur-sm"></div>
+            @endif
 
-            <div class="relative z-10 flex flex-col items-center">
-                <a href="/">
-                    <x-application-logo class="w-10 h-10 mx-auto" />
+            @if(empty($hideHeader))
+            <div class="relative z-10 flex flex-col items-center mb-8">
+                <a href="/" class="transform transition-transform hover:scale-105">
+                    <div class="bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-lg">
+                        <x-application-logo class="w-16 h-16 mx-auto" />
+                    </div>
                 </a>
-                <div class="mt-3 text-center text-xl font-semibold">Baganga Campus</div>
+                <div class="mt-4 text-center">
+                    <h1 class="text-2xl font-bold text-gray-800 dark:text-white">Baganga Campus</h1>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Education Management System</p>
+                </div>
             </div>
+            @endif
 
-            <div class="relative z-10 w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
+            <div class="relative z-10 {{ $cardClass ?? 'w-full sm:max-w-md px-6 py-8 bg-white dark:bg-gray-800 shadow-2xl overflow-hidden sm:rounded-2xl border border-gray-100 dark:border-gray-700' }}">
                 {{ $slot }}
             </div>
+
+            @if(empty($hideFooter))
+            <div class="relative z-10 mt-6 text-center text-xs text-gray-500 dark:text-gray-400">
+                <p>&copy; {{ date('Y') }} Baganga Campus. All rights reserved.</p>
+            </div>
+            @endif
         </div>
     </body>
 </html>

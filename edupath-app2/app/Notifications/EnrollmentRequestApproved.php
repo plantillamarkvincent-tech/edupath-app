@@ -2,15 +2,11 @@
 
 namespace App\Notifications;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class EnrollmentRequestApproved extends Notification implements ShouldQueue
+class EnrollmentRequestApproved extends Notification
 {
-    use Queueable;
-
     public function __construct(public array $data)
     {
     }

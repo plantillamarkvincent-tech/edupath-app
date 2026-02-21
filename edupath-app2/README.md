@@ -7,6 +7,49 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+---
+
+## EduPath – Tech Stack & Deployment
+
+### Backend
+- **PHP 8.2** – Server-side language that runs the application.
+- **Laravel 12** – PHP framework for routing, auth, validation, and application structure.
+- **Laravel Breeze** – Authentication scaffolding (login, register, password reset).
+- **Laravel Tinker** – REPL for running Laravel code in the terminal.
+- **Laravel Pail** – Real-time log streaming.
+- **Laravel Sail** – Docker-based local development environment (optional).
+- **Queue (database)** – Background jobs stored and processed via the database.
+- **Mail (SMTP)** – Sending email (e.g. notifications) via an SMTP server.
+
+### Frontend
+- **Blade** – Laravel’s template engine for server-rendered HTML.
+- **Tailwind CSS** – Utility-first CSS framework for layout and styling.
+- **Alpine.js** – Lightweight JavaScript for interactivity (dropdowns, modals).
+- **Vite** – Build tool and dev server for JS/CSS.
+- **Axios** – HTTP client for AJAX/API requests.
+- **Figtree** – Default sans-serif font.
+
+### Database
+- **SQLite** – Default database (file-based; no separate server). No XAMPP required for default setup.
+- **MySQL / MariaDB** – Optional; configured in `config/database.php`. **XAMPP** can be used locally to run MySQL/MariaDB (and PHP/Apache) if you prefer these over SQLite.
+- **Eloquent** – Laravel’s ORM for database models and relationships.
+- **Migrations** – Versioned schema definitions (create/alter tables).
+- **Seeders** – Scripts to populate initial or test data.
+
+### Tools
+- **Composer** – PHP dependency and autoload manager.
+- **npm** – Node package manager for frontend dependencies.
+- **Concurrently** – Runs server, queue, logs, and Vite in one command.
+- **PHPUnit** – PHP testing framework.
+- **Laravel Pint** – PHP code style fixer.
+- **Faker** – Fake data for tests and seeders.
+- **Pest** – Optional testing syntax on top of PHPUnit.
+
+### Deployment
+- **Railway** – Cloud platform where this project is deployed. Railway provides hosting for the Laravel app (and optionally the database), with automatic builds from the repo, environment variables for config, and a public URL. The app is run in production on Railway’s infrastructure.
+
+---
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:

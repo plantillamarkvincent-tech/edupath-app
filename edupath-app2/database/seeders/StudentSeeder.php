@@ -3,38 +3,45 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\User;
 use App\Models\Student;
-use App\Models\Program;
-use Illuminate\Support\Str;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class StudentSeeder extends Seeder
 {
-	/**
-	 * Run the database seeds.
-	 */
-	public function run(): void
-	{
-		$program = Program::first();
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        // Example demo student linked to the admin user, if needed.
+        // Adjust or extend this as you wish, or leave it empty.
 
-		$user = User::firstOrCreate(
-			['email' => 'student@example.com'],
-			[
-				'name' => 'Sample Student',
-				'password' => bcrypt('password'),
-				'role' => 'student',
-			]
-		);
+        $user = User::where('email', 'admin@example.com')->first();
 
-		Student::updateOrCreate(
-			['user_id' => $user->id],
-			[
-				'student_number' => 'S-' . now()->format('Y') . '-' . Str::padLeft((string) random_int(1, 9999), 4, '0'),
-				'first_name' => 'Sample',
-				'last_name' => 'Student',
-				'program_id' => $program?->id,
-				'year_level' => '1',
-			]
-		);
-	}
+        if (! $user) {
+            $user = User::create([
+                'name' => 'System Admin',
+                'email' => 'admin@example.com',
+                'password' => Hash::make('password'),
+                'role' => 'admin',
+            ]);
+        }
+
+        Student::firstOrCreate([
+            'user_id' => $user->id,
+        ], [
+            'student_number'   => 'DORSU-0001',
+            'first_name'       => 'System',
+            'middle_name'      => null,
+            'last_name'        => 'Admin',
+            'birthdate'        => null,
+            'sex'              => null,
+            'contact_number'   => null,
+            'address'          => null,
+            'program_id'       => null,
+            'year_level'       => null,
+            'status'           => 'active',
+        ]);
+    }
 }

@@ -1,0 +1,163 @@
+@startuml EduPath_ERD
+!define TABLE(name,desc) class name as "desc" << (T,#FFAAAA) >>
+!define PK_COL(x) <b>x</b>
+!define FK_COL(x) <i>x</i>
+
+title EduPath Application - Entity Relationship Diagram
+
+TABLE(users, "USERS") {
+  PK_COL(id) : BIGINT
+  --
+  name : VARCHAR(255)
+  email : VARCHAR(255) **UK**
+  password : VARCHAR(255)
+  role : VARCHAR(255)
+  email_verified_at : TIMESTAMP
+  remember_token : VARCHAR(100)
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+}
+
+TABLE(students, "STUDENTS") {
+  PK_COL(id) : BIGINT
+  --
+  FK_COL(user_id) : BIGINT --> users
+  student_number : VARCHAR(255) **UK**
+  first_name : VARCHAR(255)
+  middle_name : VARCHAR(255)
+  last_name : VARCHAR(255)
+  birthdate : DATE
+  sex : VARCHAR(10)
+  contact_number : VARCHAR(255)
+  address : VARCHAR(255)
+  FK_COL(program_id) : BIGINT --> programs
+  year_level : VARCHAR(255)
+  status : VARCHAR(255)
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+}
+
+TABLE(programs, "PROGRAMS") {
+  PK_COL(id) : BIGINT
+  --
+  code : VARCHAR(255) **UK**
+  name : VARCHAR(255)
+  description : TEXT
+  years : INTEGER
+  subjects_by_year : LONGTEXT
+  possible_projects : LONGTEXT
+  possible_careers : LONGTEXT
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+}
+
+TABLE(courses, "COURSES") {
+  PK_COL(id) : BIGINT
+  --
+  code : VARCHAR(255) **UK**
+  title : VARCHAR(255)
+  units : TINYINT
+  FK_COL(program_id) : BIGINT --> programs
+  year_level : TINYINT
+  semester : TINYINT
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+}
+
+TABLE(enrollments, "ENROLLMENTS") {
+  PK_COL(id) : BIGINT
+  --
+  FK_COL(student_id) : BIGINT --> students
+  FK_COL(course_id) : BIGINT --> courses
+  term : VARCHAR(255)
+  school_year : VARCHAR(255)
+  status : ENUM
+  grade : DECIMAL(5,2)
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+  --
+  **UK**: (student_id, course_id, term, school_year)
+}
+
+TABLE(enrollment_requests, "ENROLLMENT_REQUESTS") {
+  PK_COL(id) : BIGINT
+  --
+  FK_COL(user_id) : BIGINT --> users
+  FK_COL(program_id) : BIGINT --> programs
+  full_name : VARCHAR(255)
+  email : VARCHAR(255)
+  contact_number : VARCHAR(255)
+  address : VARCHAR(255)
+  last_school_attended : VARCHAR(255)
+  school_year : VARCHAR(255)
+  status : ENUM **IDX**
+  admin_note : TEXT
+  student_photo : VARCHAR(255)
+  deleted_at : TIMESTAMP
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+  --
+  ... (many SPF fields) ...
+}
+
+TABLE(announcements, "ANNOUNCEMENTS") {
+  PK_COL(id) : BIGINT
+  --
+  title : VARCHAR(255)
+  content : TEXT
+  type : VARCHAR(255)
+  is_active : BOOLEAN
+  publish_at : TIMESTAMP
+  expires_at : TIMESTAMP
+  FK_COL(created_by) : BIGINT --> users
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+}
+
+TABLE(contact_messages, "CONTACT_MESSAGES") {
+  PK_COL(id) : BIGINT
+  --
+  name : VARCHAR(255)
+  email : VARCHAR(255)
+  subject : VARCHAR(255)
+  message : TEXT
+  is_read : BOOLEAN
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+}
+
+TABLE(about_pages, "ABOUT_PAGES") {
+  PK_COL(id) : BIGINT
+  --
+  title : VARCHAR(255)
+  content : TEXT
+  map_embed_url : TEXT
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+}
+
+' Relationships
+users ||--o| students : "has one"
+users ||--o{ enrollment_requests : "creates"
+users ||--o{ announcements : "creates (created_by)"
+
+programs ||--o{ students : "has many"
+programs ||--o{ courses : "has many"
+programs ||--o{ enrollment_requests : "receives"
+
+students ||--o{ enrollments : "enrolls in"
+courses ||--o{ enrollments : "has enrollments"
+
+note right of enrollments
+  Junction table for
+  Student-Course
+  many-to-many relationship
+end note
+
+note right of enrollment_requests
+  Soft deletes enabled
+  (deleted_at column)
+end note
+
+@enduml
+

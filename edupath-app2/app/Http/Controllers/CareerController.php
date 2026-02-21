@@ -9,7 +9,7 @@ class CareerController extends Controller
 {
 	public function landing()
 	{
-		return redirect()->route('career.index');
+		return view('landing');
 	}
 
 	public function index()

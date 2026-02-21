@@ -28,6 +28,7 @@ class AdminProgramController extends Controller
             'code' => ['required','string','max:50','unique:programs,code'],
             'description' => ['nullable','string'],
             'years' => ['required','integer','min:1','max:6'],
+            'subjects_by_year' => ['nullable','string'],
             'possible_projects' => ['nullable','string'],
             'possible_careers' => ['nullable','string'],
         ]);
@@ -49,6 +50,7 @@ class AdminProgramController extends Controller
             'code' => ['required','string','max:50'],
             'description' => ['nullable','string'],
             'years' => ['required','integer','min:1','max:6'],
+            'subjects_by_year' => ['nullable','string'],
             'possible_projects' => ['nullable','string'],
             'possible_careers' => ['nullable','string'],
         ]);

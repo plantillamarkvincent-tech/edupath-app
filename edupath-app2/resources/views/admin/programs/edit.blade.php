@@ -34,6 +34,11 @@
         </div>
 
         <div>
+            <label class="block text-sm mb-1">📚 Subjects by Year and Semester</label>
+            <textarea name="subjects_by_year" rows="5" class="w-full border p-2 rounded" placeholder="List ideas to input, one per line">{{ old('subjects_by_year', $program->subjects_by_year) }}</textarea>
+        </div>
+
+        <div>
             <label class="block text-sm mb-1">Possible Projects (Capstone/Thesis)</label>
             <textarea name="possible_projects" rows="5" class="w-full border p-2 rounded" placeholder="List ideas, one per line">{{ old('possible_projects', $program->possible_projects) }}</textarea>
         </div>
