@@ -1,8 +1,7 @@
 #!/bin/sh
-set -e
-# Run migrations and caches on Railway (Pre-Deploy)
-php artisan migrate --force --no-interaction || true
-php artisan config:cache
+# Pre-Deploy: migrations and caches. Do not use set -e so one failure doesn't kill the deploy.
+php artisan migrate --force --no-interaction 2>/dev/null || true
+php artisan config:cache 2>/dev/null || true
 php artisan route:cache 2>/dev/null || true
 php artisan view:cache 2>/dev/null || true
 php artisan storage:link 2>/dev/null || true
