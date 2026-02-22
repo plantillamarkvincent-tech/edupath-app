@@ -24,4 +24,7 @@ ENV COMPOSER_ALLOW_SUPERUSER 1
 RUN composer install --no-dev --no-interaction --working-dir=/var/www/html
 RUN chmod +x /var/www/html/render-start.sh
 
+# Ensure storage and cache are writable (image uses www-data)
+RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+
 CMD ["/start.sh"]

@@ -176,7 +176,7 @@ git status
 
 | Key | Value |
 |-----|-------|
-| `APP_KEY` | Run `php artisan key:generate --show` and paste the output |
+| `APP_KEY` | **Required.** Run `php artisan key:generate --show` and paste the output |
 | `APP_ENV` | `production` |
 | `APP_DEBUG` | `false` |
 | `APP_URL` | Leave empty for now |
@@ -213,6 +213,10 @@ git status
 ---
 
 ## Troubleshooting
+
+### If you see "No application encryption key has been specified" on Render
+
+Add `APP_KEY` in Render: Web Service → **Environment** → Add `APP_KEY` = (run `php artisan key:generate --show` locally and paste the output, e.g. `base64:xxxx...`). Then redeploy.
 
 ### If you see "DATABASE_URL: NOT SET" or "Connection refused to 127.0.0.1" on Render
 
